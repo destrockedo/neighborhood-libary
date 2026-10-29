@@ -35,6 +35,8 @@ public class neighborhoodLibary {
                     break;
 
                 case 2:
+                    listCheckedOutBooks();
+                    checkInBook(scan);
                     break;
                 case 3:
                     System.out.println("Goodbye!");
@@ -44,11 +46,7 @@ public class neighborhoodLibary {
                     break;
             }
         }
-
-
-
-
-
+        //Methosds
     }
     public static void listAvailableBooks() {
         System.out.println("Available Books:");
@@ -68,12 +66,12 @@ public class neighborhoodLibary {
         if (bookId == 0) {
             return;
         }
-
         for (int i = 0; i < numGoodbooks; i++) {
+            //null becuase i didnt use all 20 books
             if (Goodbooks[i] != null &&
-                    //Compare book in arry to whats entered
+                    //Compare book/bookid in arry to whats entered
                     Goodbooks[i].getBookid() == bookId &&
-                    //if book is not checked out
+                    //if book is in libary and is not yet checked out
                     !Goodbooks[i].isCheckedOut()) {
                 System.out.print("Enter your name: ");
                 String name = scan.nextLine();
@@ -84,7 +82,39 @@ public class neighborhoodLibary {
                 return;
             }
         }
+        System.out.println("Book univaivlabe");
+    }
+    public static void listCheckedOutBooks() {
+        System.out.println("Checked Out Books:");
 
-        System.out.println("Book not found or already checked out.");
+        for (int i = 0; i < numGoodbooks; i++) {
+            //if does not = null because i didnt fill out all 20 books and book is checked out ! would make it not !Goodbooks
+            //if statment goes threw every book indiviaully to check if both are ture (got stuck here)
+            if (Goodbooks[i] != null && Goodbooks[i].isCheckedOut()) {
+                System.out.println(Goodbooks[i]);
+            }
+        }
+    }
+
+// Same as check out book method
+    public static void checkInBook(Scanner scan) {
+
+        System.out.print("Enter an ID to check in, or 0 to go back: ");
+        int bookId = scan.nextInt();
+        scan.nextLine();
+        if (bookId == 0) {
+            return;
+        }
+        for (int i = 0; i < numGoodbooks; i++) {
+            if (Goodbooks[i] != null && Goodbooks[i].getBookid() == bookId && Goodbooks[i].isCheckedOut()) {
+                //check in makes the boolean variable false in the book returning it to availble books
+                Goodbooks[i].checkIn();
+                System.out.println(Goodbooks[i].getTitle() +
+                        " has been checked in.");
+                return;
+            }
+        }
+
+        System.out.println("Book not found or not checked out.");
     }
 }
